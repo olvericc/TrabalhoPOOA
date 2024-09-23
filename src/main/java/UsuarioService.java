@@ -18,9 +18,11 @@ public class UsuarioService {
         }
         for (Usuario usuario : usuarios) {
             if (usuario.getUsername().equals(username) && usuario.getSenha().equals(password)) {
+                System.out.println("Login bem-sucedido para o usuário: " + username);
                 return usuario;
             }
         }
+        System.out.println("Falha no login para o usuário: " + username);
         return null; // Se o login for inválido
     }
 

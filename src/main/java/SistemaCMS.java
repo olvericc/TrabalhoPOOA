@@ -38,7 +38,7 @@ public class SistemaCMS {
     }
 
     private void mostrarMenuPrivado(Scanner scanner) {
-        System.out.println("Menu Após Login:");
+        System.out.println("Seja bem-vindo ao CMS, agora vamos lá:");
         System.out.println("1. Criar Conteúdo");
         System.out.println("2. Listar Conteúdos");
         System.out.println("3. Atualizar Conteúdo");

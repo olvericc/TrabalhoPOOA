@@ -46,31 +46,30 @@ public class TUI extends UI {
         String password = scanner.nextLine();
 
         // Login com nome de usuário e senha iguais
-        if (username.equals(password)) {
-            currentUser = usuarioService.validarLogin(username, password);
-            if (currentUser != null) {
-                System.out.println("Login bem-sucedido!");
-                return currentUser;
-            }
+        currentUser = usuarioService.validarLogin(username, password);
+        if (currentUser != null) {
+            System.out.println("Login bem-sucedido!");
+            return currentUser;
+        } else {
+            System.out.println("Credenciais inválidas.");
+            return null;
         }
-        System.out.println("Credenciais inválidas.");
-        return null;
     }
 
     // Menu após login (para usuários autenticados)
     private void mostrarMenuConteudo() {
         while (currentUser != null) {
             System.out.println("Menu Após Login:");
-            System.out.println("1. Criar Conteúdo");
-            System.out.println("2. Listar Conteúdo");
-            System.out.println("3. Atualizar Conteúdo");
-            System.out.println("4. Excluir Conteúdo");
-            System.out.println("5. Criar Usuário");
-            System.out.println("6. Listar Usuários");
-            System.out.println("7. Alterar Usuário");
-            System.out.println("8. Excluir Usuário");
-            System.out.println("9. Alterar Senha");
-            System.out.println("10. Logout");
+            System.out.println("1. Criar Conteúdo: Cria novo conteúdo.");
+            System.out.println("2. Listar Conteúdo: Listar os conteúdos.");
+            System.out.println("3. Atualizar Conteúdo: Editar conteúdo.");
+            System.out.println("4. Excluir Conteúdo: Deletar conteúdo.");
+            System.out.println("5. Criar Usuário: Cria novo Usuário");
+            System.out.println("6. Listar Usuário: Listar os usuários.");
+            System.out.println("7. Alterar Usuário: Edita o Usuário");
+            System.out.println("8. Excluir Usuário: Deletar Usuário.");
+            System.out.println("9. Alterar Senha: permite ao usuário alterar a própria senha.");
+            System.out.println("10. Logout: Sai do login.");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
             scanner.nextLine(); // Consome a nova linha
@@ -113,7 +112,8 @@ public class TUI extends UI {
         }
     }
 
-    // Implementação dos métodos de conteúdo e usuários
+    // Métodos auxiliares de criação, listagem, alteração, etc.
+
     private void criarConteudo() {
         System.out.println("Criação de Conteúdo:");
         String titulo = lerInfo("Digite o Título");
@@ -138,7 +138,6 @@ public class TUI extends UI {
         conteudoService.atualizarConteudo(Integer.parseInt(id), titulo, texto, currentUser);
         System.out.println("Conteúdo atualizado com sucesso!");
     }
-
     private void excluirConteudo() {
         System.out.println("Exclusão de Conteúdo:");
         String id = lerInfo("Digite o ID do Conteúdo");
@@ -150,7 +149,7 @@ public class TUI extends UI {
         }
     }
 
-    // Métodos de usuários
+    // Métodos de gerenciamento de usuários
     private void criarUsuario() {
         System.out.println("Criação de Usuário:");
         String username = lerInfo("Digite o Username");
