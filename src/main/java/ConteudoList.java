@@ -30,7 +30,6 @@ public class ConteudoList implements Persistencia<Conteudo> {
         return false;
     }
 
-    // Corrigir o modificador de acesso para "public"
     @Override
     public boolean remover(String titulo) {
         return conteudos.removeIf(conteudo -> conteudo.getTitulo().equals(titulo));

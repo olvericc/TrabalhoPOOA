@@ -11,18 +11,15 @@ public class RepositorioHSQLDB<T> implements Repositorio<T> {
 
     @Override
     public void salvar(T entidade) {
-        // Implementação de persistência para HSQLDB
     }
 
     @Override
     public T buscar(String id) {
-        // Implementação de busca no HSQLDB
         return null;
     }
 
     @Override
     public void atualizar(T entidade) {
-        // Implementação de atualização no HSQLDB
     }
 
     @Override

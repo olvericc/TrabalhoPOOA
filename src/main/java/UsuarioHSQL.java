@@ -13,7 +13,6 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
         criarTabela();
     }
 
-    // Garantir que a conexão seja aberta corretamente
     private Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -21,7 +20,6 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
         return connection;
     }
 
-    // Criar a tabela de usuários se não existir
     private void criarTabela() {
         String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +
                 "username VARCHAR(255) PRIMARY KEY, " +

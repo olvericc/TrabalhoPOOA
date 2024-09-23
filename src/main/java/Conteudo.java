@@ -6,7 +6,6 @@ public class Conteudo {
     private Usuario autor;
     private String corpo;
 
-    // Construtor que inicializa todos os campos, incluindo o campo "corpo"
     public Conteudo(Integer id, String titulo, String texto, Usuario autor, String corpo) {
         this.id = id;
         this.titulo = titulo;
@@ -15,18 +14,12 @@ public class Conteudo {
         this.corpo = corpo;
     }
 
-    // Construtor que inicializa sem o campo "corpo"
     public Conteudo(Integer id, String titulo, String texto, Usuario autor) {
         this.id = id;
         this.titulo = titulo;
         this.texto = texto;
         this.autor = autor;
-        this.corpo = ""; // Valor padrão para o corpo
-    }
-
-    public Conteudo(String titulo, String corpo) {
-        this.titulo = titulo;
-        this.corpo = null;
+        this.corpo = "";
     }
 
     public Conteudo(String titulo) {

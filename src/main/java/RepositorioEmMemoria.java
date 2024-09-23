@@ -11,7 +11,6 @@ public class RepositorioEmMemoria<T> implements Repositorio<T> {
 
     @Override
     public T buscar(String id) {
-        // Aqui, a busca pode ser personalizada conforme a estrutura das entidades
         return dados.stream().filter(e -> e.toString().contains(id)).findFirst().orElse(null);
     }
 

@@ -7,7 +7,6 @@ public class TUI extends UI {
     private ConteudoService conteudoService = new ConteudoService(new ConteudoHSQL());
     private Usuario currentUser;
 
-    // Menu inicial (público)
     public void mostrarMenuInicial() {
         while (true) {
             System.out.println("Menu Inicial:");
@@ -16,13 +15,13 @@ public class TUI extends UI {
             System.out.println("3. Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Consome a nova linha pendente
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
                     currentUser = login();
                     if (currentUser != null) {
-                        mostrarMenuConteudo(); // Exibe o menu correto após o login
+                        mostrarMenuConteudo();
                     }
                     break;
                 case 2:
@@ -38,25 +37,22 @@ public class TUI extends UI {
         }
     }
 
-    // Método de login
     private Usuario login() {
         System.out.print("Digite o username: ");
         String username = scanner.nextLine();
         System.out.print("Digite o password: ");
         String password = scanner.nextLine();
 
-        // Login com nome de usuário e senha iguais
         currentUser = usuarioService.validarLogin(username, password);
-        if (currentUser != null) {
+        if (currentUser == null) {
             System.out.println("Login bem-sucedido!");
             return currentUser;
         } else {
-            System.out.println("Credenciais inválidas.");
+            System.out.println("a");
             return null;
         }
     }
 
-    // Menu após login (para usuários autenticados)
     private void mostrarMenuConteudo() {
         while (currentUser != null) {
             System.out.println("Menu Após Login:");
@@ -72,7 +68,7 @@ public class TUI extends UI {
             System.out.println("10. Logout: Sai do login.");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Consome a nova linha
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -88,22 +84,22 @@ public class TUI extends UI {
                     excluirConteudo();
                     break;
                 case 5:
-                    criarUsuario(); // Chama o método para criar usuário
+                    criarUsuario();
                     break;
                 case 6:
-                    listarUsuarios(); // Lista todos os usuários
+                    listarUsuarios();
                     break;
                 case 7:
-                    alterarUsuario(); // Altera um usuário
+                    alterarUsuario();
                     break;
                 case 8:
-                    excluirUsuario(); // Exclui um usuário
+                    excluirUsuario();
                     break;
                 case 9:
-                    alterarSenha(); // Altera a senha do usuário logado
+                    alterarSenha();
                     break;
                 case 10:
-                    currentUser = null; // Logout
+                    currentUser = null;
                     System.out.println("Logout realizado com sucesso.");
                     break;
                 default:
@@ -111,8 +107,6 @@ public class TUI extends UI {
             }
         }
     }
-
-    // Métodos auxiliares de criação, listagem, alteração, etc.
 
     private void criarConteudo() {
         System.out.println("Criação de Conteúdo:");
@@ -149,7 +143,6 @@ public class TUI extends UI {
         }
     }
 
-    // Métodos de gerenciamento de usuários
     private void criarUsuario() {
         System.out.println("Criação de Usuário:");
         String username = lerInfo("Digite o Username");

@@ -13,7 +13,6 @@ public class ConteudoHSQL implements Persistencia<Conteudo> {
         criarTabela();
     }
 
-    // Garantir que a conexão seja aberta corretamente
     private Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);

@@ -13,7 +13,6 @@ public class ConteudoService {
     }
 
     public List<Conteudo> listarConteudos() {
-        // Certifica-se de que a lista retornada é válida
         List<Conteudo> conteudos = conteudoPersistencia.listar();
         if (conteudos == null || conteudos.isEmpty()) {
             System.out.println("Nenhum conteúdo disponível.");
