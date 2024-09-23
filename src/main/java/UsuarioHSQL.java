@@ -2,14 +2,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConteudoHSQL implements Persistencia<Conteudo> {
+public class UsuarioHSQL implements Persistencia<Usuario> {
 
-    private static final String DB_URL = "jdbc:hsqldb:mem:conteudoDB";
+    private static final String DB_URL = "jdbc:hsqldb:mem:usuarioDB";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
     private Connection connection = null;
 
-    public ConteudoHSQL() {
+    public UsuarioHSQL() {
         criarTabela();
     }
 
@@ -22,11 +22,9 @@ public class ConteudoHSQL implements Persistencia<Conteudo> {
     }
 
     private void criarTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS Conteudo (" +
-                "id INTEGER IDENTITY PRIMARY KEY, " +
-                "titulo VARCHAR(255), " +
-                "texto VARCHAR(10000), " +
-                "autor VARCHAR(255))";
+        String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +
+                "username VARCHAR(255) PRIMARY KEY, " +
+                "senha VARCHAR(255))";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
@@ -36,13 +34,12 @@ public class ConteudoHSQL implements Persistencia<Conteudo> {
     }
 
     @Override
-    public void save(Conteudo conteudo) {
-        String sql = "INSERT INTO Conteudo (titulo, texto, autor) VALUES (?, ?, ?)";
+    public void save(Usuario usuario) {
+        String sql = "INSERT INTO Usuario (username, senha) VALUES (?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, conteudo.getTitulo());
-            stmt.setString(2, conteudo.getTexto());
-            stmt.setString(3, conteudo.getAutor().getUsername());
+            stmt.setString(1, usuario.getUsername());
+            stmt.setString(2, usuario.getSenha());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,38 +47,29 @@ public class ConteudoHSQL implements Persistencia<Conteudo> {
     }
 
     @Override
-    public List<Conteudo> listar() {
-        List<Conteudo> conteudos = new ArrayList<>();
-        String sql = "SELECT * FROM Conteudo";
+    public List<Usuario> listar() {
+        List<Usuario> usuarios = new ArrayList<>();
+        String sql = "SELECT * FROM Usuario";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Usuario autor = new Usuario(rs.getString("autor"), ""); // Senha não importa ao listar
-                Conteudo conteudo = new Conteudo(
-                        rs.getInt("id"),
-                        rs.getString("titulo"),
-                        rs.getString("texto"),
-                        autor,
-                        ""
-                );
-                conteudos.add(conteudo);
+                Usuario usuario = new Usuario(rs.getString("username"), rs.getString("senha"));
+                usuarios.add(usuario);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return conteudos;
+        return usuarios;
     }
 
     @Override
-    public void atualizar(Conteudo conteudo) {
-        String sql = "UPDATE Conteudo SET titulo = ?, texto = ?, autor = ? WHERE id = ?";
+    public void atualizar(Usuario usuario) {
+        String sql = "UPDATE Usuario SET senha = ? WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, conteudo.getTitulo());
-            stmt.setString(2, conteudo.getTexto());
-            stmt.setString(3, conteudo.getAutor().getUsername());
-            stmt.setInt(4, conteudo.getId());
+            stmt.setString(1, usuario.getSenha());
+            stmt.setString(2, usuario.getUsername());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,16 +82,17 @@ public class ConteudoHSQL implements Persistencia<Conteudo> {
     }
 
     @Override
-    public boolean remover(String titulo) {
-        String sql = "DELETE FROM Conteudo WHERE titulo = ?";
+    public boolean remover(String username) {
+        String sql = "DELETE FROM Usuario WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, titulo);
+            stmt.setString(1, username);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
+
 }

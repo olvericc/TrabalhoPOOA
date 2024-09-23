@@ -1,27 +1,27 @@
-import java.util.List;
-
 public class ConteudoService {
 
+    private final Persistencia<Conteudo> conteudoPersistencia;
 
-    private Persistencia<Conteudo> persistencia;
-
-    public ConteudoService(Persistencia<Conteudo> persistencia) {
-        this.persistencia = persistencia;
+    public ConteudoService(Persistencia<Conteudo> conteudoPersistencia) {
+        this.conteudoPersistencia = conteudoPersistencia;
     }
 
-    public void save(Conteudo conteudo) {
-        persistencia.save(conteudo);
+    // Método que cria um conteúdo sem o campo "corpo"
+    public void criarConteudoSemCorpo(Integer id, String titulo, String texto, Usuario autor) {
+        Conteudo conteudo = new Conteudo(id, titulo, texto, autor);
+        conteudoPersistencia.save(conteudo);
+        System.out.println("Conteúdo criado com sucesso!");
     }
 
-    public void atualizarConteudo(int id, String titulo, String texto, Usuario autor) {
-        persistencia.atualizar(new Conteudo(id, titulo, texto, autor));
+    // Método que cria um conteúdo com o campo "corpo"
+    public void criarConteudoComCorpo(Integer id, String titulo, String texto, Usuario autor, String corpo) {
+        Conteudo conteudo = new Conteudo(id, titulo, texto, autor, corpo);
+        conteudoPersistencia.save(conteudo);
+        System.out.println("Conteúdo com corpo criado com sucesso!");
     }
 
-    public List<Conteudo> listarConteudos() {
-        return persistencia.listar();
-    }
-
-    public boolean removerConteudo(int id) {
-        return persistencia.remover(id);
+    // Listar conteúdos
+    public void listarConteudos() {
+        conteudoPersistencia.listar().forEach(System.out::println);
     }
 }

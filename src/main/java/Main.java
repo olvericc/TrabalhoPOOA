@@ -1,12 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        Repositorio<Usuario> repositorioUsuarios = new RepositorioEmMemoria<>();
-        Repositorio<Conteudo> repositorioConteudos = new RepositorioEmMemoria<>();
+        Persistencia<Usuario> usuarioPersistencia = new UsuarioHSQL();
+        Persistencia<Conteudo> conteudoPersistencia = new ConteudoHSQL();
 
-        GerenciadorUsuarios gerenciadorUsuarios = new GerenciadorUsuarios(repositorioUsuarios);
-        GerenciadorConteudos gerenciadorConteudos = new GerenciadorConteudos(repositorioConteudos);
-
-        SistemaCMS sistema = new SistemaCMS(gerenciadorUsuarios, gerenciadorConteudos);
+        SistemaCMS sistema = new SistemaCMS(usuarioPersistencia, conteudoPersistencia);
         sistema.iniciar();
     }
 }

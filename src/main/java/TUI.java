@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class TUI extends UI {
@@ -14,7 +13,7 @@ public class TUI extends UI {
             System.out.println("3. Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // consumir nova linha pendente
             switch (opcao) {
                 case 1:
                     System.out.print("Digite o username: ");
@@ -26,7 +25,7 @@ public class TUI extends UI {
                         return usuario;
                     }
                     System.out.println("Login inválido.");
-                    return null;
+                    break; // Garantir que continue o loop para outra tentativa de login
                 case 2:
                     listarConteudo();
                     break;
@@ -35,6 +34,7 @@ public class TUI extends UI {
                     System.exit(0);
                 default:
                     System.out.println("Opção inválida.");
+                    break;
             }
         }
     }
@@ -58,12 +58,12 @@ public class TUI extends UI {
         System.out.println("5. Sair");
         System.out.print("Escolha uma opção: ");
         int opcao = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // consumir nova linha pendente
 
         if (opcao == 1) {
             String titulo = lerInfo("Digite o Titulo");
             String texto = lerInfo("Digite o Texto");
-            Conteudo conteudo = new Conteudo(null,titulo, texto, currentUser);
+            Conteudo conteudo = new Conteudo(null, titulo, texto, currentUser);
             conteudoService.save(conteudo);
             System.out.println("Conteudo criado!");
         } else if (opcao == 2) {
@@ -85,8 +85,8 @@ public class TUI extends UI {
                 System.out.println("Conteudo não encontrado.");
             }
         } else if (opcao == 5) {
-            currentUser = null;
+            return null; // Retornar null se o usuário escolheu sair
         }
-        return currentUser;
+        return currentUser; // Retornar o usuário atual se ele não saiu
     }
 }

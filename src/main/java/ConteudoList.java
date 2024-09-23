@@ -1,38 +1,38 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ConteudoList implements Persistencia<Conteudo> {
 
-    private List<Conteudo> conteudos = new ArrayList<>();
-    private int count = 1 ;
+    private final List<Conteudo> conteudos = new ArrayList<>();
 
     @Override
     public void save(Conteudo conteudo) {
-        if(conteudo.getId() == null) {
-            conteudo.setId(count++);
-        }
         conteudos.add(conteudo);
     }
 
     @Override
-    public void atualizar(Conteudo entidade) {
-        for (Conteudo conteudo : conteudos) {
-            if (conteudo.getId() == entidade.getId()) {
-                conteudo.setTitulo(entidade.getTitulo());
-                conteudo.setTexto(entidade.getTexto());
-                break;
+    public List<Conteudo> listar() {
+        return new ArrayList<>(conteudos);
+    }
+
+    @Override
+    public void atualizar(Conteudo conteudo) {
+        for (int i = 0; i < conteudos.size(); i++) {
+            if (conteudos.get(i).getId().equals(conteudo.getId())) {
+                conteudos.set(i, conteudo);
+                return;
             }
         }
     }
 
     @Override
-    public List<Conteudo> listar() {
-        return Collections.unmodifiableList(conteudos);
+    public boolean remover(int id) {
+        return false;
     }
 
+    // Corrigir o modificador de acesso para "public"
     @Override
-    public boolean remover(int id) {
-        return conteudos.removeIf(conteudo -> conteudo.getId() == id);
+    public boolean remover(String titulo) {
+        return conteudos.removeIf(conteudo -> conteudo.getTitulo().equals(titulo));
     }
 }
