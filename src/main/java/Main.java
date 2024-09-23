@@ -1,15 +1,12 @@
 public class Main {
     public static void main(String[] args) {
-        Usuario currentUser = null;
+        Repositorio<Usuario> repositorioUsuarios = new RepositorioEmMemoria<>();
+        Repositorio<Conteudo> repositorioConteudos = new RepositorioEmMemoria<>();
 
-        TUI ui = new TUI();
+        GerenciadorUsuarios gerenciadorUsuarios = new GerenciadorUsuarios(repositorioUsuarios);
+        GerenciadorConteudos gerenciadorConteudos = new GerenciadorConteudos(repositorioConteudos);
 
-        while (true) {
-            if (currentUser == null) {
-                currentUser = ui.mostrarMenuLogin();
-            } else {
-                currentUser = ui.mostrarMenuConteudo(currentUser);
-            }
-        }
+        SistemaCMS sistema = new SistemaCMS(gerenciadorUsuarios, gerenciadorConteudos);
+        sistema.iniciar();
     }
 }

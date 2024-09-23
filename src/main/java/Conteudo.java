@@ -5,14 +5,19 @@ public class Conteudo {
     private String texto;
     private Usuario autor;
 
-    public Conteudo() {
-    }
-
     public Conteudo(Integer id, String titulo, String texto, Usuario autor) {
         this.id = id;
-        this.titulo = titulo;
         this.texto = texto;
         this.autor = autor;
+        this.titulo = titulo;
+    }
+
+    public Conteudo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Conteudo() {
+
     }
 
     public void setId(Integer id) {
@@ -49,9 +54,6 @@ public class Conteudo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Conteudo [id=").append(id).append(", titulo=").append(titulo).append(", texto=").append(texto)
-                .append(", autor=").append(autor).append("]");
-        return builder.toString();
+        return "Conteudo [id=" + id + ", titulo=" + titulo + ", texto=" + texto + ", autor=" + autor + "]";
     }
 }

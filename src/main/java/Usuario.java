@@ -1,14 +1,14 @@
 public class Usuario {
-
     private String username;
-    private String password;
+    private String senha;
 
-    public Usuario() {
+    public Usuario(String username, String senha) {
+        this.username = username;
+        this.senha = senha;
     }
 
-    public Usuario(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public Usuario() {
+
     }
 
     public String getUsername() {
@@ -19,16 +19,18 @@ public class Usuario {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @Override
     public String toString() {
-        return "Usuario [username=" + username + ", password= ********" + "]";
+        return "Usuario{" +
+                "username='" + username + '\'' +
+                '}';
     }
 }
