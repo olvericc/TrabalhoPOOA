@@ -27,7 +27,6 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
-            System.out.println("Tabela 'Usuario' criada com sucesso.");
         } catch (SQLException e) {
             System.err.println("Erro ao criar a tabela de usuários:");
             e.printStackTrace();
@@ -42,7 +41,6 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
             stmt.setString(1, usuario.getUsername());
             stmt.setString(2, usuario.getSenha());
             stmt.executeUpdate();
-            System.out.println("Usuário " + usuario.getUsername() + " salvo com sucesso.");
         } catch (SQLException e) {
             System.err.println("Erro ao salvar o usuário:");
             e.printStackTrace();
@@ -80,11 +78,6 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
             System.err.println("Erro ao atualizar o usuário:");
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean remover(int id) {
-        return false; // Método não utilizado
     }
 
     @Override

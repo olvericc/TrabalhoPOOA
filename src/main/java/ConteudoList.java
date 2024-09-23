@@ -26,11 +26,6 @@ public class ConteudoList implements Persistencia<Conteudo> {
     }
 
     @Override
-    public boolean remover(int id) {
-        return false;
-    }
-
-    @Override
     public boolean remover(String titulo) {
         return conteudos.removeIf(conteudo -> conteudo.getTitulo().equals(titulo));
     }

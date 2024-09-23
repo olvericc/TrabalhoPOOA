@@ -26,7 +26,6 @@ public class Conteudo {
         this.titulo = titulo;
     }
 
-    // Getters e setters
     public Integer getId() {
         return id;
     }
@@ -65,6 +64,6 @@ public class Conteudo {
 
     @Override
     public String toString() {
-        return "Conteudo [id=" + id + ", titulo=" + titulo + ", autor=" + autor.getUsername() + "]";
+        return "Conteúdo [ Id: " + id + ", Título:" + titulo + ", Texto: " + texto + ", Autor (Nome do Usuário): " + autor.getUsername() + " ]";
     }
 }

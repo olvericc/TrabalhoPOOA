@@ -56,7 +56,7 @@ public class ConteudoHSQL implements Persistencia<Conteudo> {
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Usuario autor = new Usuario(rs.getString("autor"), ""); // Senha não importa ao listar
+                Usuario autor = new Usuario(rs.getString("autor"), "");
                 Conteudo conteudo = new Conteudo(
                         rs.getInt("id"),
                         rs.getString("titulo"),
@@ -85,11 +85,6 @@ public class ConteudoHSQL implements Persistencia<Conteudo> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean remover(int id) {
-        return false;
     }
 
     @Override

@@ -12,9 +12,8 @@ public class SistemaCMS {
 
     public void iniciar() {
         Scanner scanner = new Scanner(System.in);
-        boolean executando = true;
 
-        while (executando) {
+        while (true) {
             if (usuarioLogado == null) {
                 mostrarMenuPublico(scanner);
             } else {
@@ -24,7 +23,7 @@ public class SistemaCMS {
     }
 
     private void mostrarMenuPublico(Scanner scanner) {
-        System.out.println("Menu Inicial:");
+        System.out.println("Menu Inicial: (público)");
         System.out.println("1. Login");
         System.out.println("2. Listar Conteúdos");
         System.out.println("3. Sair");
@@ -38,49 +37,75 @@ public class SistemaCMS {
     }
 
     private void mostrarMenuPrivado(Scanner scanner) {
-        System.out.println("Seja bem-vindo ao CMS, agora vamos lá:");
-        System.out.println("1. Criar Conteúdo");
-        System.out.println("2. Listar Conteúdos");
-        System.out.println("3. Atualizar Conteúdo");
-        System.out.println("4. Excluir Conteúdo");
-        System.out.println("5. Criar Usuário");
-        System.out.println("6. Listar Usuários");
-        System.out.println("7. Alterar Usuário");
-        System.out.println("8. Excluir Usuário");
-        System.out.println("9. Alterar Senha");
-        System.out.println("10. Logout");
-        int opcao = scanner.nextInt();
+        while (true) {
+            System.out.println();
+            System.out.println("Olá, " + usuarioLogado.getUsername() + "!");
+            System.out.println("Seja bem-vindo ao CMS (menu privado após login), agora vamos lá:");
+            System.out.println();
+            System.out.println("+--------CRUD DE CONTEÚDO---------+");
+            System.out.println("|                                 |");
+            System.out.println("|      1. Criar Conteúdo          |");
+            System.out.println("|      2. Listar Conteúdo         |");
+            System.out.println("|      3. Atualizar Conteúdo      |");
+            System.out.println("|      4. Excluir Conteúdo        |");
+            System.out.println("|                                 |");
+            System.out.println("+--------CRUD DE USUÁRIO----------+");
+            System.out.println("|                                 |");
+            System.out.println("|      5. Criar Usuário           |");
+            System.out.println("|      6. Listar Usuário          |");
+            System.out.println("|      7. Alterar Usuário         |");
+            System.out.println("|      8. Excluir Usuário         |");
+            System.out.println("|                                 |");
+            System.out.println("+---------OUTRAS OPÇÕES-----------+");
+            System.out.println("|                                 |");
+            System.out.println("|      9. Alterar Senha           |");
+            System.out.println("|      10. Logout                 |");
+            System.out.println("|                                 |");
+            System.out.println("+---------------------------------+");
+            System.out.print("Escolha uma opção: ");
+            System.out.println();
 
-        switch (opcao) {
-            case 1 -> criarConteudo(scanner);
-            case 2 -> listarConteudos();
-            case 3 -> atualizarConteudo(scanner);
-            case 4 -> excluirConteudo(scanner);
-            case 5 -> criarUsuario(scanner);
-            case 6 -> listarUsuarios();
-            case 7 -> alterarUsuario(scanner);
-            case 8 -> excluirUsuario(scanner);
-            case 9 -> alterarSenha(scanner);
-            case 10 -> logout();
+            if (scanner.hasNextInt()) {
+                int opcao = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (opcao) {
+                    case 1 -> criarConteudo(scanner);
+                    case 2 -> listarConteudos();
+                    case 3 -> atualizarConteudo(scanner);
+                    case 4 -> excluirConteudo(scanner);
+                    case 5 -> criarUsuario(scanner);
+                    case 6 -> listarUsuarios();
+                    case 7 -> alterarUsuario(scanner);
+                    case 8 -> excluirUsuario(scanner);
+                    case 9 -> alterarSenha(scanner);
+                    case 10 -> {
+                        logout();
+                        return;
+                    }
+                    default -> System.out.println("Opção inválida. Tente novamente.");
+                }
+            } else {
+                System.out.println("Entrada inválida. Por favor, insira um número.");
+                scanner.nextLine();
+            }
         }
     }
 
+
     private void login(Scanner scanner) {
-        System.out.println("Digite o username:");
+        System.out.println("Digite o nome do usuário:");
         String username = scanner.next();
-        System.out.println("Digite a senha:");
+        System.out.println("Digite a senha do usuário:");
         String senha = scanner.next();
 
-        Usuario usuario = usuarioPersistencia.listar().stream()
-                .filter(u -> u.getUsername().equals(username) && u.getSenha().equals(senha))
-                .findFirst()
-                .orElse(null);
-
-        if (usuario != null) {
-            usuarioLogado = usuario;
+        if (username.equals(senha)) {
+            usuarioLogado = new Usuario(username, senha);
             System.out.println("Login bem-sucedido!");
+            System.out.println();
         } else {
             System.out.println("Credenciais inválidas.");
+            System.out.println();
         }
     }
 
@@ -120,9 +145,9 @@ public class SistemaCMS {
     }
 
     private void excluirConteudo(Scanner scanner) {
-        System.out.println("Digite o ID do conteúdo a ser excluído:");
-        int id = scanner.nextInt();
-        boolean sucesso = conteudoPersistencia.remover(id);
+        System.out.println("Digite o título do conteúdo a ser excluído:");
+        String titulo = scanner.next();
+        boolean sucesso = conteudoPersistencia.remover(titulo);
         if (sucesso) {
             System.out.println("Conteúdo excluído com sucesso!");
         } else {
@@ -131,39 +156,59 @@ public class SistemaCMS {
     }
 
     private void criarUsuario(Scanner scanner) {
-        System.out.println("Digite o username:");
+        System.out.println("Digite o nome do usuário:");
         String username = scanner.next();
-        System.out.println("Digite a senha:");
+        System.out.println("Digite a senha do usuário:");
         String senha = scanner.next();
         Usuario usuario = new Usuario(username, senha);
         usuarioPersistencia.save(usuario);
-        System.out.println("Usuário criado com sucesso!");
+        System.out.println("Novo usuário criado com sucesso!");
     }
 
     private void listarUsuarios() {
-        usuarioPersistencia.listar().forEach(System.out::println);
+        System.out.println("INFORMAÇÕES DOS USUÁRIOS");
+        for (Usuario usuario : usuarioPersistencia.listar()) {
+            String senhaMascarada = "*".repeat(usuario.getSenha().length());
+            System.out.println("Usuário [ Nome: " + usuario.getUsername() + ", Senha: " + senhaMascarada + " ]");
+        }
     }
 
     private void alterarUsuario(Scanner scanner) {
-        System.out.println("Digite o username do usuário a ser alterado:");
+        System.out.println("Digite o nome do usuário a ser alterado:");
         String username = scanner.next();
+
         Usuario usuario = usuarioPersistencia.listar().stream()
                 .filter(u -> u.getUsername().equals(username))
                 .findFirst()
                 .orElse(null);
+
         if (usuario == null) {
             System.out.println("Usuário não encontrado.");
             return;
         }
-        System.out.println("Digite a nova senha:");
-        String novaSenha = scanner.next();
-        usuario.setSenha(novaSenha);
+
+        System.out.println("Digite o novo nome de usuário (ou pressione Enter para manter o atual):");
+        scanner.nextLine();
+        String novoUsername = scanner.nextLine();
+        if (!novoUsername.isEmpty()) {
+            usuario.setUsername(novoUsername);
+        }
+
+        System.out.println("Digite a nova senha (ou pressione Enter para manter a atual):");
+        String novaSenha = scanner.nextLine();
+        if (!novaSenha.isEmpty()) {
+            usuario.setSenha(novaSenha);
+        }
+
         usuarioPersistencia.atualizar(usuario);
-        System.out.println("Usuário atualizado com sucesso!");
+        usuarioPersistencia.remover(username);
+        usuarioPersistencia.save(usuario);
+
+        System.out.println("A senha do Usuário Logado, " + usuario.getUsername() + " foi atualizada com sucesso!");
     }
 
     private void excluirUsuario(Scanner scanner) {
-        System.out.println("Digite o username do usuário a ser excluído:");
+        System.out.println("Digite o nome do usuário a ser excluído:");
         String username = scanner.next();
         Usuario usuario = usuarioPersistencia.listar().stream()
                 .filter(u -> u.getUsername().equals(username))
@@ -173,7 +218,7 @@ public class SistemaCMS {
             System.out.println("Usuário não encontrado.");
             return;
         }
-        boolean sucesso = usuarioPersistencia.remover(usuarioPersistencia.listar().indexOf(usuario));
+        boolean sucesso = usuarioPersistencia.remover(usuario.getUsername());
         if (sucesso) {
             System.out.println("Usuário excluído com sucesso!");
         } else {
@@ -191,6 +236,6 @@ public class SistemaCMS {
 
     private void logout() {
         usuarioLogado = null;
-        System.out.println("Logout realizado com sucesso.");
+        System.out.println("Logout realizado com sucesso, por favor, volte sempre!");
     }
 }
